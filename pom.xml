@@ -1,8 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.wwu.sev.sopra</groupId>
-    <artifactId>Sopra17</artifactId>
+    <artifactId>DarthChest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -20,6 +19,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+	
+	
     <dependencies>
 
         <!-- Junit zum Testen -->
@@ -28,13 +29,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.4.9</version>
-        </dependency>
-       
+        </dependency>       
     </dependencies>
 
     <build>
@@ -61,7 +56,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>view.MainView</mainClass>
+                    <mainClass>darthchest.main.Main</mainClass>
                     <!--arguments>
                     <argument>argument1</argument>
                     </arguments-->
@@ -124,7 +119,7 @@
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>view.MainView</mainClass>
+									<mainClass>darthchest.main.Main</mainClass>
 								</transformer>
 							</transformers>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
@@ -134,4 +129,5 @@
 			</plugin>
         </plugins>
     </build>
+    <groupId>com.darthplugins.darthchest</groupId>
 </project>
