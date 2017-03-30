@@ -20,7 +20,8 @@
 			<accessrule kind="accessible" pattern="javafx/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/BuildTools/craftbukkit-1.11.2.jar"/>
-	<classpathentry kind="lib" path="E:/BuildTools/spigot-1.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jonas/#GitReps/DarthPlugins/DarthChest/craftbukkit-1.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jonas/#GitReps/DarthPlugins/DarthChest/spigot-1.11.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Jonas/#GitReps/DarthPlugins/DarthChest/Vault.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
