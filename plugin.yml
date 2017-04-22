@@ -1,9 +1,13 @@
 name: DarthChest
+description:
 version: 0.0.1
 author: DarthPixel
 main: darthchest.main.Main
-depend: [Vault]
+depend: [Vault, Essentials, EssentialsChat, ChestShop]
+
 
 commands:
+   test:
+   add:
 
 permissions:
