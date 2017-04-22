@@ -1,0 +1,9 @@
+name: DarthChest
+version: 0.0.1
+author: DarthPixel
+main: darthchest.main.Main
+depend: Vault
+
+commands:
+
+permissions:
