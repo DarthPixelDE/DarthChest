@@ -28,25 +28,33 @@ public class Main extends JavaPlugin {
 
 	private static final Logger log = Logger.getLogger("Minecraft");
 	private static Economy econ = null;
-	private static Permission perms = null;
-	private static Chat chat = null;
 	private ChestShop cs = null;
 	private LinkedList<AutoSeller> AutoSellerList = new LinkedList<AutoSeller>();
+	private MySQLConnection con = null;
 
+	
 	@Override
 	public void onDisable() {
 		log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
+		con.disconnect();
 	}
 
 	@Override
 	public void onEnable() {
+		
+		con = new MySQLConnection("ms815.nitrado.net", 3306, "ni231492_1_DB", "ni231492_1_DB", "PixelPlay42!");
+		con.connect();
+		
+		
+		
+		
+		
+		
 		if (!setupEconomy()) {
 			log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
-		setupPermissions();
-		setupChat();
 
 		try {
 			Metrics metrics = new Metrics();
@@ -106,27 +114,12 @@ public class Main extends JavaPlugin {
 		return econ != null;
 	}
 
-	private boolean setupChat() {
-		return true;
-	}
 
-	private boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-		perms = rsp.getProvider();
-		return perms != null;
-	}
 
 	public static Economy getEcononomy() {
 		return econ;
 	}
 
-	public static Permission getPermissions() {
-		return perms;
-	}
-
-	public static Chat getChat() {
-		return chat;
-	}
 	
 	public LinkedList<AutoSeller> getAutoSellerList(){
 		return AutoSellerList;
