@@ -17,6 +17,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,6 +32,7 @@ public class Main extends JavaPlugin {
 	private ChestShop cs = null;
 	private LinkedList<AutoSeller> AutoSellerList = new LinkedList<AutoSeller>();
 	private MySQLConnection con = null;
+	private FileConfiguration Config = getConfig();
 
 	
 	@Override
@@ -41,10 +43,11 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		load();
 		
-		con = new MySQLConnection("ms815.nitrado.net", 3306, "ni231492_1_DB", "ni231492_1_DB", "password");
+		con = new MySQLConnection(getConfig().getString("Host"), getConfig().getInt("port"), getConfig().getString("database"), getConfig().getString("username"), getConfig().getString("password"));
 		con.connect();
-		
+	
 		
 		
 		
@@ -123,6 +126,21 @@ public class Main extends JavaPlugin {
 	
 	public LinkedList<AutoSeller> getAutoSellerList(){
 		return AutoSellerList;
+	}
+	
+	private void load(){
+		this.getConfig().addDefault("Host", "hostaddress");
+		this.getConfig().addDefault("port", 3306);
+		this.getConfig().addDefault("database", "database");
+		this.getConfig().addDefault("username", "username");
+		this.getConfig().addDefault("password", "password");
+		
+		Config.options().copyDefaults(true);
+		saveConfig();
+		
+	}
+	private void save(){
+		
 	}
 
 }
