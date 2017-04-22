@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		
-		con = new MySQLConnection("ms815.nitrado.net", 3306, "ni231492_1_DB", "ni231492_1_DB", "PixelPlay42!");
+		con = new MySQLConnection("ms815.nitrado.net", 3306, "ni231492_1_DB", "ni231492_1_DB", "password");
 		con.connect();
 		
 		
