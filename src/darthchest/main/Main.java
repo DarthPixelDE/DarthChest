@@ -10,6 +10,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.permission.Permission;
+import net.minecraft.server.v1_11_R1.Item;
 
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -31,6 +32,7 @@ public class Main extends JavaPlugin {
 	private static Economy econ = null;
 	private ChestShop cs = null;
 	private LinkedList<AutoSeller> AutoSellerList = new LinkedList<AutoSeller>();
+	private LinkedList<SellableItem> SellableItemList = new LinkedList<SellableItem>();
 	private MySQLConnection con = null;
 	private FileConfiguration Config = getConfig();
 
@@ -43,10 +45,14 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		load();
+		load();	
+		
 		
 		con = new MySQLConnection(getConfig().getString("Host"), getConfig().getInt("port"), getConfig().getString("database"), getConfig().getString("username"), getConfig().getString("password"));
 		con.connect();
+		
+		SellableItemList = con.loadSellableList();
+		System.out.println(SellableItemList.get(0).getItem().getName());
 	
 		
 		
@@ -84,9 +90,14 @@ public class Main extends JavaPlugin {
 				
 				for (AutoSeller autoSeller : AutoSellerList) {
 					ch = (Chest)autoSeller.getChestLocation().getBlock().getState();
-					if (ch.getInventory().getItem(0) != null) {
-						ch.getInventory().getItem(0).setAmount(ch.getInventory().getItem(0).getAmount() - 1);
-						econ.depositPlayer(autoSeller.getRecipient(), 10);
+					if (ch.getInventory().getItem(0) != null) {						
+						
+						for (SellableItem sellableItem : SellableItemList) {
+							if(ch.getInventory().getItem(0) != null && ch.getInventory().getItem(0).getType().getId() == Item.getId(sellableItem.getItem())){
+								ch.getInventory().getItem(0).setAmount(ch.getInventory().getItem(0).getAmount() - 1);
+								econ.depositPlayer(autoSeller.getRecipient(), sellableItem.getPrice());
+							}							
+						}						
 					} else {
 						for (int i = 0; i < ch.getInventory().getSize() - 1; i++) {
 							ch.getInventory().setItem(i, ch.getInventory().getItem(i + 1));
@@ -140,6 +151,9 @@ public class Main extends JavaPlugin {
 		
 	}
 	private void save(){
+		
+		
+		
 		
 	}
 

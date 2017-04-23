@@ -3,8 +3,16 @@ package darthchest.main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+
+
+import net.minecraft.server.v1_11_R1.Block;
+import net.minecraft.server.v1_11_R1.Item;
+
+
 
 
 public class MySQLConnection {
@@ -13,6 +21,7 @@ public class MySQLConnection {
 	private Connection connection;
     private String host, database, username, password;
     private int port;
+    private Statement statement;
 	
 	public MySQLConnection(String Host, int Port, String Database, String Username, String Password){
 		host = Host;
@@ -25,11 +34,11 @@ public class MySQLConnection {
 	public void connect(){
 		try {     
             openConnection();
-            Statement statement = connection.createStatement();    
+            statement = connection.createStatement();    
             
             String sql = "CREATE TABLE IF NOT EXISTS DarthChest_items " +
-                    "(ItemType VARCHAR(255) NOT NULL, "  + 
-                    " Cost DOUBLE NOT NULL)"; 
+                    "(ItemType INTEGER NOT NULL, "  + 
+                    " Price DOUBLE NOT NULL)"; 
             
             statement.execute(sql);
             
@@ -60,11 +69,7 @@ public class MySQLConnection {
 			e.printStackTrace();
 		}
 	}
-	       
-	   
-
-
-	    public void openConnection() throws SQLException, ClassNotFoundException {
+	    private void openConnection() throws SQLException, ClassNotFoundException {
 	    if (connection != null && !connection.isClosed()) {
 	        return;
 	    }
@@ -77,6 +82,49 @@ public class MySQLConnection {
 	        connection = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.username, this.password);
 	    }
 	}
+	    
+	    
+	    public LinkedList<SellableItem> loadSellableList(){
+	    	
+	    	LinkedList<SellableItem> ausgabe = null;
+	    	
+	    	
+	    		ausgabe = new LinkedList<SellableItem>();
+	    		
+	    		
+	    		ResultSet result;
+				try {
+					result = statement.executeQuery("SELECT * FROM DarthChest_items");
+					
+					while (result.next()) {
+		    		    int ItemType = result.getInt("ItemType");
+		    		    double price = result.getDouble("Price");
+		    		    Item i = Item.getById(ItemType);
+		    		    
+		    		    ausgabe.add(new SellableItem(i, price));
+		    		    
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	    		
+	   
+	    	
+	    	return ausgabe;
+	    }
+	    
+	    
+	    public void saveAutoSellerList(LinkedList<AutoSeller> list){
+	    	
+	    }
+	    
+	    public void saveItemList(LinkedList<SellableItem> list){
+	    	
+	    }
+	    
+	    
+	    
+	    
 	 
 	
 }
