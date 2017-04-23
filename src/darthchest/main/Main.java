@@ -36,29 +36,29 @@ public class Main extends JavaPlugin {
 	private MySQLConnection con = null;
 	private FileConfiguration Config = getConfig();
 
-	
 	@Override
 	public void onDisable() {
 		log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
+		con.saveItemList(SellableItemList);
+		con.saveAutoSellerList(AutoSellerList);
 		con.disconnect();
 	}
 
 	@Override
 	public void onEnable() {
-		load();	
-		
-		
-		con = new MySQLConnection(getConfig().getString("Host"), getConfig().getInt("port"), getConfig().getString("database"), getConfig().getString("username"), getConfig().getString("password"));
+		load();
+
+		con = new MySQLConnection(getConfig().getString("Host"), getConfig().getInt("port"),
+				getConfig().getString("database"), getConfig().getString("username"),
+				getConfig().getString("password"), this);
 		con.connect();
-		
+
 		SellableItemList = con.loadSellableList();
-		System.out.println(SellableItemList.get(0).getItem().getName());
-	
+		AutoSellerList = con.loadAutoSellerList();
 		
 		
 		
-		
-		
+
 		if (!setupEconomy()) {
 			log.severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
 			getServer().getPluginManager().disablePlugin(this);
@@ -73,7 +73,7 @@ public class Main extends JavaPlugin {
 		}
 
 		this.getCommand("test").setExecutor(new Kommando(this, econ));
-		this.getCommand("add").setExecutor(new Kommando(this, econ));
+		this.getCommand("darth_additem").setExecutor(new Kommando(this, econ));
 		getServer().getPluginManager().registerEvents(new SignListener(this), this);
 		autoLogger();
 	}
@@ -87,16 +87,19 @@ public class Main extends JavaPlugin {
 				// -191 66 226
 
 				Chest ch = null;
-				
+
 				for (AutoSeller autoSeller : AutoSellerList) {
-					ch = (Chest)autoSeller.getChestLocation().getBlock().getState();
-					if (ch.getInventory().getItem(0) != null) {						
-						
+					ch = (Chest) autoSeller.getChestLocation().getBlock().getState();
+					if (ch.getInventory().getItem(0) != null) {
+
 						for (SellableItem sellableItem : SellableItemList) {
-							if(ch.getInventory().getItem(0) != null && ch.getInventory().getItem(0).getType().getId() == Item.getId(sellableItem.getItem())){
-								ch.getInventory().getItem(0).setAmount(ch.getInventory().getItem(0).getAmount() - 1);
-								econ.depositPlayer(autoSeller.getRecipient(), sellableItem.getPrice());
-							}							
+							for(int i=0;i < ch.getInventory().getSize(); i++){
+								if(ch.getInventory().getItem(i) != null && ch.getInventory().getItem(i).getType().equals(sellableItem.getItem().getType())){
+								econ.depositPlayer(autoSeller.getReceiver(), sellableItem.getPrice() * ch.getInventory().getItem(i).getAmount());
+								ch.getInventory().getItem(i).setAmount(0);								
+							}
+							}	
+							
 						}						
 					} else {
 						for (int i = 0; i < ch.getInventory().getSize() - 1; i++) {
@@ -105,7 +108,7 @@ public class Main extends JavaPlugin {
 					}
 				}
 			}
-		}, 0L, 10L);
+		}, 0L, 100L);
 
 	}
 
@@ -128,33 +131,32 @@ public class Main extends JavaPlugin {
 		return econ != null;
 	}
 
-
-
 	public static Economy getEcononomy() {
 		return econ;
 	}
 
-	
-	public LinkedList<AutoSeller> getAutoSellerList(){
+	public LinkedList<AutoSeller> getAutoSellerList() {
 		return AutoSellerList;
 	}
 	
-	private void load(){
+	public LinkedList<SellableItem> getSellableItemList(){
+		return SellableItemList;
+	}
+
+	private void load() {
 		this.getConfig().addDefault("Host", "hostaddress");
 		this.getConfig().addDefault("port", 3306);
 		this.getConfig().addDefault("database", "database");
 		this.getConfig().addDefault("username", "username");
 		this.getConfig().addDefault("password", "password");
-		
+
 		Config.options().copyDefaults(true);
 		saveConfig();
-		
+
 	}
-	private void save(){
-		
-		
-		
-		
+
+	private void save() {
+
 	}
 
 }

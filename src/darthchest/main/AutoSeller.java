@@ -9,10 +9,10 @@ public class AutoSeller {
 	private Location lS, lC;
 	private OfflinePlayer rec;
 	
-	public AutoSeller(Location locSign, OfflinePlayer recipient, Location locChest){
+	public AutoSeller(Location locSign, OfflinePlayer receiver, Location locChest){
 		lS = locSign;
 		lC = locChest;
-		rec = recipient;		
+		rec = receiver;		
 	}
 	
 	public Location getSignLocation(){
@@ -23,7 +23,7 @@ public class AutoSeller {
 		return lC;
 	}
 	
-	public OfflinePlayer getRecipient(){
+	public OfflinePlayer getReceiver(){
 		return rec;
 	}
 	

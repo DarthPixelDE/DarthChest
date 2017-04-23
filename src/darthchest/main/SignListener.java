@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
@@ -35,23 +36,19 @@ public class SignListener implements Listener {
 				if (chestLoc != null) {
 					AutoSellerList.add(new AutoSeller(signLoc, (OfflinePlayer) e.getPlayer(), chestLoc));
 					e.getPlayer().sendMessage("AutoSell Kiste erfolgreich erstellt.");
-					e.getPlayer().teleport(new Location(signLoc.getWorld(), 0, 0,0));
-					System.out.println(AutoSellerList);
 				}
 			} else {
 				if (chestLoc != null) {
 					AutoSellerList
 							.add(new AutoSeller(signLoc, plugin.getServer().getOfflinePlayer(e.getLine(3)), chestLoc));
 					e.getPlayer().sendMessage("AutoSell Kiste erfolgreich erstellt.");
-					e.getPlayer().teleport(new Location(signLoc.getWorld(), 0, 0,0));
-					System.out.println(AutoSellerList);
 				}
 				
 			}
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority=EventPriority.LOWEST)
 	public void onBlockBreak(BlockBreakEvent e){
 		if(e.getBlock().getType().equals(Material.CHEST) || isSign(e.getBlock())){
 			

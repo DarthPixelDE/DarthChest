@@ -1,6 +1,6 @@
 name: DarthChest
 description:
-version: 0.0.5
+version: 0.5.0
 author: DarthPixel
 main: darthchest.main.Main
 depend: [Vault, Essentials, ChestShop]
@@ -8,6 +8,15 @@ depend: [Vault, Essentials, ChestShop]
 
 commands:
    test:
-   add:
-
+   darth_additem:
+      description: Add item to the list of accepted Items for Auto-Sellin
+      aliases: [ditem]
+      permission: darthchest.admin.additem
 permissions:
+   darthchest.*:
+      children:
+         darthchest.admin: true
+         darthchest.admin.additem: true
+   darthchest.admin.*:
+      children:
+         darthchest.admin.additem: true

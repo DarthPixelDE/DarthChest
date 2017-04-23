@@ -1,25 +1,21 @@
 package darthchest.main;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import net.minecraft.server.v1_11_R1.Item;
 
 public class SellableItem {
 	
 	
-	private Item item;
+	private ItemStack item;
 	private double price;
 	
-	public SellableItem(Item Item, double Price){
-		item = Item;
-		
-		
-		
+	public SellableItem(ItemStack Item, double Price){
+		item = Item;	
 		price = Price;
 	}
 	
 	
-	public Item getItem(){
+	public ItemStack getItem(){
 		return item;
 	}
 	
