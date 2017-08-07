@@ -17,8 +17,8 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import net.minecraft.server.v1_11_R1.Block;
-import net.minecraft.server.v1_11_R1.Item;
+//import net.minecraft.server.v1_11_R1.Block;
+//import net.minecraft.server.v1_11_R1.Item;
 
 
 

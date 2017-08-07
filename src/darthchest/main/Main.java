@@ -2,29 +2,17 @@ package darthchest.main;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.UUID;
-
 import java.util.logging.Logger;
 
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.permission.Permission;
-import net.minecraft.server.v1_11_R1.Item;
-
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Chest;
-import org.bukkit.block.Sign;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spigotmc.Metrics;
 
 import com.Acrobot.ChestShop.ChestShop;
+
+import net.milkbowl.vault.economy.Economy;
 
 public class Main extends JavaPlugin {
 
@@ -38,10 +26,7 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
-		con.saveItemList(SellableItemList);
-		con.saveAutoSellerList(AutoSellerList);
-		con.disconnect();
+		save();	
 	}
 
 	@Override
@@ -156,7 +141,10 @@ public class Main extends JavaPlugin {
 	}
 
 	private void save() {
-
+		log.info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
+		con.saveItemList(SellableItemList);
+		con.saveAutoSellerList(AutoSellerList);
+		con.disconnect();
 	}
 
 }

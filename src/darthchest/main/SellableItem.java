@@ -1,6 +1,5 @@
 package darthchest.main;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class SellableItem {
@@ -10,7 +9,8 @@ public class SellableItem {
 	private double price;
 	
 	public SellableItem(ItemStack Item, double Price){
-		item = Item;	
+		item = Item;
+		System.out.println(Item.getType());
 		price = Price;
 	}
 	

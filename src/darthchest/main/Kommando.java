@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_11_R1.Item;
+//import net.minecraft.server.v1_11_R1.Item;
 
 public class Kommando implements CommandExecutor{
 
@@ -38,6 +38,15 @@ public class Kommando implements CommandExecutor{
 							Player p = (Player) sender;
 							if(!(p.getInventory().getItemInMainHand().getType().equals(Material.AIR) || p.getInventory().getItemInMainHand().getType().equals(Material.STATIONARY_LAVA) || p.getInventory().getItemInMainHand().getType().equals(Material.STATIONARY_WATER))){
 								plugin.getSellableItemList().add(new SellableItem(p.getInventory().getItemInMainHand(),Double.parseDouble(args[0])));							
+								
+								
+								//TODO: DEBUG
+								for(int i =0; i< plugin.getSellableItemList().size(); i++){
+									System.out.println(plugin.getSellableItemList().get(i));
+								
+								
+								
+								}
 								p.sendMessage("Successfully added item");
 								return true;
 							}else p.sendMessage(p.getInventory().getItemInMainHand().getType()+ " kann nicht verkauft werden.");
