@@ -49,6 +49,7 @@ public class MySQLConnection {
             String sql = "CREATE TABLE IF NOT EXISTS DarthChest_items " +
                     "(ItemID INTEGER NOT NULL, "  +
             		"ItemMaterial VARCHAR(255) NOT NULL, "+
+                    "ItemData NUMERIC NOT NULL, "+
                     " Price DOUBLE NOT NULL)"; 
             
             statement.execute(sql);
@@ -108,7 +109,8 @@ public class MySQLConnection {
 					result = statement.executeQuery("SELECT * FROM DarthChest_items");
 					
 					while (result.next()) {
-		    		    ItemStack i = new ItemStack(Material.matchMaterial(result.getString("ItemMaterial")));
+		    		    ItemStack i = new ItemStack(Material.matchMaterial(result.getString("ItemMaterial")), 1,(short)0,result.getByte("ItemData"));
+		    		      
 		    		    double price = result.getDouble("Price");	    		    
 		    		    ausgabe.add(new SellableItem(i, price));		    		    
 					}
@@ -215,12 +217,13 @@ public class MySQLConnection {
 	    	try {   		
 				
 				
-				ps = connection.prepareStatement("INSERT INTO `DarthChest_items`(ItemID, ItemMaterial, Price) VALUES (?, ?, ?);");			
+				ps = connection.prepareStatement("INSERT INTO `DarthChest_items`(ItemID, ItemMaterial, ItemData, Price) VALUES (?, ?, ?, ?);");			
 				
 				for (SellableItem sellableItem : list) {					
 					ps.setString(1, String.valueOf(sellableItem.getItem().getTypeId()));
 					ps.setString(2, sellableItem.getItem().getType().toString());					
-			    	ps.setDouble(3, sellableItem.getPrice());			    	
+			    	ps.setByte(3, sellableItem.getItem().getData().getData());
+					ps.setDouble(4, sellableItem.getPrice());			    	
 			    	ps.executeUpdate();					
 				}
 				

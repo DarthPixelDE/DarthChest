@@ -6,6 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 
 import net.milkbowl.vault.economy.Economy;
@@ -29,6 +31,10 @@ public class Kommando implements CommandExecutor{
 			if(cmd.getName().equals("test")){
 				sender.sendMessage(sender.getName() + ":" +econ.hasAccount((OfflinePlayer)sender));
 				sender.sendMessage(sender.getName() + ": " + econ.getBalance((OfflinePlayer)sender));
+				//TODO: DEBUG
+				for(int i =0; i< plugin.getSellableItemList().size(); i++){
+					System.out.println(plugin.getSellableItemList().get(i).getItem().getData());							
+				}			
 				
 				return true;
 			}else if(cmd.getName().equals("darth_additem")){
@@ -42,10 +48,7 @@ public class Kommando implements CommandExecutor{
 								
 								//TODO: DEBUG
 								for(int i =0; i< plugin.getSellableItemList().size(); i++){
-									System.out.println(plugin.getSellableItemList().get(i));
-								
-								
-								
+									System.out.println(plugin.getSellableItemList().get(i).getItem());							
 								}
 								p.sendMessage("Successfully added item");
 								return true;

@@ -9,14 +9,15 @@ public class SellableItem {
 	private double price;
 	
 	public SellableItem(ItemStack Item, double Price){
-		item = Item;
-		System.out.println(Item.getType());
+		item = Item.clone();
 		price = Price;
 	}
 	
 	
 	public ItemStack getItem(){
 		return item;
+		
+		
 	}
 	
 	public double getPrice(){

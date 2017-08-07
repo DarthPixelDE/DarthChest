@@ -79,7 +79,7 @@ public class Main extends JavaPlugin {
 
 						for (SellableItem sellableItem : SellableItemList) {
 							for(int i=0;i < ch.getInventory().getSize(); i++){
-								if(ch.getInventory().getItem(i) != null && ch.getInventory().getItem(i).getType().equals(sellableItem.getItem().getType())){
+								if(ch.getInventory().getItem(i) != null && ch.getInventory().getItem(i).getData().equals(sellableItem.getItem().getData())){
 								econ.depositPlayer(autoSeller.getReceiver(), sellableItem.getPrice() * ch.getInventory().getItem(i).getAmount());
 								ch.getInventory().getItem(i).setAmount(0);								
 							}
